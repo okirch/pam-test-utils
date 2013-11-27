@@ -13,6 +13,7 @@
 *.dylib
 
 # Executables
+pam-test
 *.exe
 *.out
 *.app
