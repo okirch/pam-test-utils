@@ -224,7 +224,7 @@ main(int argc, char *argv[])
 	  int ok = 0;
 
 	  if (opt_debug)
-	    fprintf (stderr, "authenticate: service=%s user=%s\n", opt_pam_service, opt_username);
+	    fprintf (stderr, "%s: service=%s user=%s\n", action, opt_pam_service, opt_username);
 
 	  if (!strcmp (action, "authenticate"))
 	    ok = test_authenticate();
