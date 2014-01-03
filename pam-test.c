@@ -82,7 +82,7 @@ fake_conv (int num_msg, const struct pam_message **msgm,
     if (string) {                         /* must add to reply array */
       /* add string to list of responses */
       if (opt_debug)
-	printf ("\n << Answer: %s\n", string);
+	fprintf(stderr, "\n << Answer: %s\n", string);
 
       reply[count].resp_retcode = 0;
       reply[count].resp = string;
