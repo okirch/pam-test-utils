@@ -170,7 +170,7 @@ test_authenticate(void)
 int
 main(int argc, char *argv[])
 {
-  enum { OPT_DEBUG, OPT_USERNAME, OPT_PASSWORD, OPT_OLD_PASSWORD, OPT_NEW_PASSWORD, OPT_PAM_SERVICE };
+  enum { OPT_DEBUG = 'd', OPT_USERNAME = 'u', OPT_PASSWORD = 'p', OPT_OLD_PASSWORD = 'O', OPT_NEW_PASSWORD = 'N', OPT_PAM_SERVICE = 'S' };
   struct option long_options[] = {
 	  { "debug",		no_argument,		NULL,	OPT_DEBUG },
 	  { "username",		required_argument,	NULL,	OPT_USERNAME },
@@ -182,7 +182,7 @@ main(int argc, char *argv[])
   };
   int c;
 
-  while ((c = getopt_long(argc, argv, "dupON", long_options, NULL)) != EOF) {
+  while ((c = getopt_long(argc, argv, "du:p:O:N:S:", long_options, NULL)) != EOF) {
     switch (c) {
     case OPT_DEBUG:
       opt_debug++;
