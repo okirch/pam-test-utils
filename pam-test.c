@@ -23,6 +23,7 @@ static char *opt_password;
 static char *opt_old_password = "pamunix0";
 static char *opt_new_password = "pAm1uNi%";
 static char *opt_pam_service = "passwd";
+static char *opt_confdir = NULL;
 
 /* A conversation function which uses an internally-stored value for
    the responses. */
@@ -123,7 +124,7 @@ test_chauthtok(void)
 
   verify_mode = 0;
 
-  retval = pam_start(opt_pam_service, opt_username, &conv, &pamh);
+  retval = pam_start_confdir(opt_pam_service, opt_username, &conv, opt_confdir, &pamh);
   if (retval != PAM_SUCCESS)
     return report_pam_error(pamh, "pam_start", retval);
 
@@ -149,7 +150,7 @@ test_authenticate(void)
 
   verify_mode = 1;
 
-  retval = pam_start(opt_pam_service, opt_username, &conv, &pamh);
+  retval = pam_start_confdir(opt_pam_service, opt_username, &conv, opt_confdir, &pamh);
   if (retval != PAM_SUCCESS)
     return report_pam_error(pamh, "pam_start", retval);
 
@@ -170,7 +171,7 @@ test_authenticate(void)
 int
 main(int argc, char *argv[])
 {
-  enum { OPT_DEBUG = 'd', OPT_USERNAME = 'u', OPT_PASSWORD = 'p', OPT_OLD_PASSWORD = 'O', OPT_NEW_PASSWORD = 'N', OPT_PAM_SERVICE = 'S' };
+  enum { OPT_DEBUG = 'd', OPT_USERNAME = 'u', OPT_PASSWORD = 'p', OPT_OLD_PASSWORD = 'O', OPT_NEW_PASSWORD = 'N', OPT_PAM_SERVICE = 'S', OPT_PAM_CONFDIR = 'C' };
   struct option long_options[] = {
 	  { "debug",		no_argument,		NULL,	OPT_DEBUG },
 	  { "username",		required_argument,	NULL,	OPT_USERNAME },
@@ -178,11 +179,12 @@ main(int argc, char *argv[])
 	  { "old-password",	required_argument,	NULL,	OPT_OLD_PASSWORD },
 	  { "new-password",	required_argument,	NULL,	OPT_NEW_PASSWORD },
 	  { "pam-service",	required_argument,	NULL,	OPT_PAM_SERVICE },
+	  { "confdir",		required_argument,	NULL,	OPT_PAM_CONFDIR },
 	  { NULL }
   };
   int c;
 
-  while ((c = getopt_long(argc, argv, "du:p:O:N:S:", long_options, NULL)) != EOF) {
+  while ((c = getopt_long(argc, argv, "du:p:O:N:S:C:", long_options, NULL)) != EOF) {
     switch (c) {
     case OPT_DEBUG:
       opt_debug++;
@@ -206,6 +208,10 @@ main(int argc, char *argv[])
 
     case OPT_PAM_SERVICE:
       opt_pam_service = optarg;
+      break;
+
+    case OPT_PAM_CONFDIR:
+      opt_confdir = optarg;
       break;
 
     default:
